@@ -106,7 +106,7 @@ class Transaction {
     }
 
     // Getters and setters
-    public String getTransactionID() {
+    public String getTransactionId() {
         return transactionID;
     }
 }

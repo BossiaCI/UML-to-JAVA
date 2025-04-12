@@ -92,7 +92,7 @@ public class Customer {
     }
 
     // Getters and setters
-    public String getCustomerID() {
+    public String getCustomerId() {
         return customerID;
     }
 }
