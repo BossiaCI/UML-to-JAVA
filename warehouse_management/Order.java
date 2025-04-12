@@ -12,6 +12,8 @@ public class Order {
     private List<OrderItem> orderItems;
 
     
+    public Order() {}
+
     public Order(String orderId, Date orderDate, String status, Customer customer) {
         this.orderId = orderId;
         this.orderDate = orderDate;
