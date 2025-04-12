@@ -1,19 +1,26 @@
 package warehouse_management;
 
-public class Employee {
-    private String employeeId;
-    private String name;
-    private String role;
-    private String contactInfo;
+import java.util.ArrayList;
+import java.util.List;
+
+abstract class Employee {
+    protected String employeeId;
+    protected String name;
+    protected String role;
+    protected String contactInfo;
+    protected Warehouse warehouse;
+    protected List<Task> assignedTasks;
     
     // Constructors
     public Employee() {
     }
-    public Employee(String employeeId, String name, String role, String contactInfo) {
+    public Employee(String employeeId, String name, String role, String contactInfo, Warehouse warehouse) {
         this.employeeId = employeeId;
         this.name = name;
         this.role = role;
         this.contactInfo = contactInfo;
+        this.warehouse = warehouse;
+        this.assignedTasks = new ArrayList<>();
     }
 
     // Getters and Setters
@@ -41,8 +48,25 @@ public class Employee {
     public void setContactInfo(String contactInfo) {
         this.contactInfo = contactInfo;
     }
-
-    public void assignTask(String task){
-        System.out.println("Task '" + task + "' assigned to " + name);
+    public Warehouse getWarehouse() {
+        return warehouse;
     }
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
+    }
+    public List<Task> getAssignedTasks() {
+        return assignedTasks;
+    }
+    public void setAssignedTasks(List<Task> assignedTasks) {
+        this.assignedTasks = assignedTasks;
+    }
+
+    public void processTask(Task task){
+        System.out.println(name + " is processing task: " + task.getTaskId());
+    }
+
+    public void assistWithShipment(Shipment shipment){
+        System.out.println(name + " is assisting with shipment: " + shipment.getShipmentId()); 
+    }
+
 }
