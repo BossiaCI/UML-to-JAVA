@@ -1,0 +1,118 @@
+@startuml banking
+' Set skin parameters
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+' Classes
+class Bank {
+    - bankName: String
+    - branches: List<Branch>
+    + addBranch(branch: Branch): void
+    + removeBranch(branch: Branch): void
+    + getBranches(): List<Branch>
+}
+
+class Branch {
+    - branchID: String
+    - location: String
+    - employees: List<Employee>
+    - accounts: List<Account>
+    - customers: List<Customer>
+    + addEmployee(emp: Employee): void
+    + addAccount(acc: Account): void
+    + addCustomer(cust: Customer): void
+}
+
+class Customer {
+    - customerID: String
+    - name: String
+    - address: String
+    - contactInfo: String
+    - accounts: List<Account>
+    + getAccountSummary(): String
+    + applyForLoan(loan: Loan): void
+}
+
+class Account {
+    - accountNumber: String
+    - balance: double
+    - accountType: String
+    + deposit(amount: double): void
+    + withdraw(amount: double): boolean
+    + transferFunds(target: Account, amount: double): boolean
+}
+
+class SavingsAccount {
+    - interestRate: double
+    + addInterest(): void
+}
+
+class CheckingAccount {
+    - overdraftLimit: double
+    + processOverdraft(): void
+}
+
+class Transaction {
+    - transactionID: String
+    - date: Date
+    - amount: double
+    - type: String
+    - sourceAccount: Account
+    - destinationAccount: Account
+    + execute(): boolean
+}
+
+class Loan {
+    - loanID: String
+    - amount: double
+    - interestRate: double
+    - term: int
+    - status: String
+    + calculateMonthlyPayment(): double
+    + approveLoan(): void
+}
+
+class CreditCard {
+    - cardNumber: String
+    - expirationDate: Date
+    - creditLimit: double
+    - currentBalance: double
+    + charge(amount: double): boolean
+    + payBill(amount: double): void
+}
+
+class Employee {
+    - employeeID: String
+    - name: String
+    - role: String
+    - branch: Branch
+    + processTransaction(tx: Transaction): void
+    + assistCustomer(cust: Customer): void
+}
+
+class Teller {
+    + processDeposit(): void
+    + processWithdrawal(): void
+}
+
+class Manager {
+    + approveLoan(loan: Loan): void
+    + generateReport(): void
+}
+
+' Relationships
+Bank "1" o-- "*" Branch : contains
+Branch "1" o-- "*" Customer : manages
+Branch "1" o-- "*" Account : owns
+Branch "1" o-- "*" Employee : employs
+Customer "1" o-- "*" Account : owns
+Account "1" o-- "*" Transaction : generates
+Customer "1" o-- "*" Loan : associated with
+Customer "1" o-- "*" CreditCard : linked to
+Employee "1" o-- Branch : works at
+Account <|-- SavingsAccount
+Account <|-- CheckingAccount
+Employee <|-- Teller
+Employee <|-- Manager
+
+@enduml
