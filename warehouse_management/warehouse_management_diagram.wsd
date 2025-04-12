@@ -1,0 +1,92 @@
+@startuml Warehouse
+
+class Warehouse {
+  - warehouseId: String
+  - name: String
+  - location: String
+  - inventoryItems: List<InventoryItem>
+  - employees: List<Employee>
+  + addInventoryItem(item: InventoryItem): void
+  + removeInventoryItem(item: InventoryItem): void
+  + getInventory(): List<InventoryItem>
+}
+
+class InventoryItem {
+  - binLocation: String
+  - quantity: int
+  - reorderLevel: int
+  - product: Product
+  - supplier: Supplier
+  + updateQuantity(qty: int): void
+  + needsReorder(): boolean
+}
+
+class Product {
+  - productId: String
+  - name: String
+  - description: String
+  - price: double
+  + getProductDetails(): String
+}
+
+class Order {
+  - orderId: String
+  - orderDate: Date
+  - status: String
+  - customer: Customer
+  - orderItems: List<OrderItem>
+  + addOrderItem(item: OrderItem): void
+  + removeOrderItem(item: OrderItem): void
+  + calculateTotal(): double
+}
+
+class OrderItem {
+  - quantity: int
+  - price: double
+  - product: Product
+  + getTotalPrice(): double
+}
+
+class Supplier {
+  - supplierId: String
+  - name: String
+  - contactInfo: String
+  - productsSupplied: List<Product>
+  + supplyProduct(product: Product): void
+}
+
+class Employee {
+  - employeeId: String
+  - name: String
+  - role: String
+  - contactInfo: String
+  + assignTask(task: String): void
+}
+
+class Shipment {
+  - shipmentId: String
+  - shipmentDate: Date
+  - deliveryDate: Date
+  - status: String
+  - order: Order
+  + trackShipment(): String
+}
+
+class Customer {
+  - customerId: String
+  - name: String
+  - address: String
+  - contactInfo: String
+  + getOrderHistory(): List<Order>
+}
+
+Warehouse "1" -- "*" InventoryItem : contains
+InventoryItem "1" -- "*" Product : references
+Order "1" -- "*" OrderItem : includes
+OrderItem "1" -- "*" Product : references
+Warehouse "1" -- "*" Employee : employs
+Supplier "1" -- "*" Product : supplies
+Shipment "1" -- "1" Order : relates to
+Customer "1" -- "*" Order : places
+
+@enduml
